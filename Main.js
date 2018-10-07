@@ -5,6 +5,7 @@
  */
 import {ResourceLoader} from "./js/base/ResourceLoader.js";
 import {Director} from "./js/Director.js";
+import {BackGround} from "./js/runtime/BackGround.js";
 
 export class Main {
     constructor() {
@@ -32,6 +33,8 @@ export class Main {
     }
 
     onResourceFirstLoaded(map) {
-        console.log(map)
+        // 初始化背景图
+        let background = new BackGround(this.ctx, map.get('background'));
+        background.draw();
     }
 }

@@ -5,6 +5,6 @@
  */
 
 // 变量缓存器
-export class DataSource {
+export class DataStore {
 
 }
