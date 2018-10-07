@@ -6,35 +6,31 @@
 import {ResourceLoader} from "./js/base/ResourceLoader.js";
 import {Director} from "./js/Director.js";
 import {BackGround} from "./js/runtime/BackGround.js";
+import {DataStore} from "./js/base/DataStore.js";
 
 export class Main {
     constructor() {
         this.canvas = document.getElementById('game_canvas');
         this.ctx = this.canvas.getContext('2d');
+
+        // 初始化dataStore
+        this.dataStore = DataStore.getInstance();
+
         const loader = ResourceLoader.create();
         loader.onLoaded(map=>this.onResourceFirstLoaded(map));
-
-        let image = new Image();
-        image.src = '../res/background.png';
-
-        image.onload = ()=> {
-            this.ctx.drawImage(
-                image,
-                0,
-                0,
-                image.width,
-                image.width,
-                0,
-                0,
-                image.width,
-                image.height
-            )
-        }
     }
 
     onResourceFirstLoaded(map) {
-        // 初始化背景图
-        let background = new BackGround(this.ctx, map.get('background'));
-        background.draw();
+        //　第一次加载完成的时候要给dataStore赋予一些常量的值, 放在这里是不希望销毁map的时候，一起销毁了
+        this.dataStore.ctx = this.ctx;
+        this.dataStore.res = map;
+
+        this.init();
+
+    }
+
+    init() {
+        this.dataStore.put('background', new BackGround(this.ctx, this.dataStore.res.get('background')));
+        Director.getInstance().run();
     }
 }
