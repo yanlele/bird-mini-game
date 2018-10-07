@@ -22,6 +22,9 @@ export class Land extends Sprite{
 
     draw() {
         this.landX = this.landX + this.landSpeed;
+        if(this.landX > (this.img.width - window.innerWidth)) {
+            this.landX = 0;
+        }
         super.draw(this.img,
             this.srcX,
             this.srcY,

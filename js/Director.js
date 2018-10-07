@@ -20,6 +20,8 @@ export class Director {
     run() {
         this.dataStore.get('background').draw();
         this.dataStore.get('land').draw();
-        console.log(requestAnimationFrame(() => this.run()));
+        let timer = requestAnimationFrame(() => this.run());        // 循环执行
+        this.dataStore.put('timer', timer);
+        // cancelAnimationFrame(this.dataStore.get('timer'));          // 这个函数可以终止动画循环
     }
 }
