@@ -11,14 +11,15 @@ export class Director {
     }
 
     static getInstance() {
-        if(!Director.instance) {
+        if (!Director.instance) {
             Director.instance = new Director();
         }
         return Director.instance;
     }
 
     run() {
-        const backgroundSprite = this.dataStore.get('background');
-        backgroundSprite.draw();
+        this.dataStore.get('background').draw();
+        this.dataStore.get('land').draw();
+        console.log(requestAnimationFrame(() => this.run()));
     }
 }
