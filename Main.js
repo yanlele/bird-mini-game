@@ -8,6 +8,7 @@ import {Director} from "./js/Director.js";
 import {BackGround} from "./js/runtime/BackGround.js";
 import {DataStore} from "./js/base/DataStore.js";
 import {Land} from "./js/runtime/Land.js";
+import {Bird} from "./js/player/Bird.js";
 
 export class Main {
     constructor() {
@@ -31,10 +32,13 @@ export class Main {
     }
 
     init() {
+        this.director.isGameOver = false;
+
         this.dataStore
             .put('pencils', [])
             .put('background', BackGround)
-            .put('land', Land);
+            .put('land', Land)
+            .put('birds', Bird);
         // 要在游戏开始之前创建
         this.director.createPencil();
         this.director.run();
