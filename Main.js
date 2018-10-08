@@ -16,7 +16,7 @@ export class Main {
 
         // 初始化dataStore
         this.dataStore = DataStore.getInstance();
-
+        this.director = Director.getInstance();
         const loader = ResourceLoader.create();
         loader.onLoaded(map=>this.onResourceFirstLoaded(map));
     }
@@ -31,8 +31,12 @@ export class Main {
     }
 
     init() {
-        this.dataStore.put('background', BackGround)
+        this.dataStore
+            .put('pencils', [])
+            .put('background', BackGround)
             .put('land', Land);
-        Director.getInstance().run();
+        // 要在游戏开始之前创建
+        this.director.createPencil();
+        this.director.run();
     }
 }
