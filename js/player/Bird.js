@@ -39,12 +39,12 @@ export class Bird extends Sprite {
 
     draw() {
         // 切换三只小鸟的速度
-        const speed = 1;
+        const speed = 0.2;
         this.count = this.count + speed;
         if(this.index >= 2) {
             this.count = 0;
         }
-        this.index = this.count;
+        this.index = Math.floor(this.count);
         super.draw(
             this.img,
             this.clippingX[this.index], this.clippingY[this.index],
