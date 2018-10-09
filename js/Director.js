@@ -35,7 +35,20 @@ export class Director {
         this.dataStore.get('birds').time = 0;
     }
 
+    // 判断小鸟装机地板和铅笔
+    check() {
+        const birds = this.dataStore.get('birds');
+        const land = this.dataStore.get('land');
+
+        // 地板的装机判断
+        if(birds.birdsY[0] + birds.birdsHeight[0] >= land.y) {
+            this.isGameOver = true;
+            console.log('撞击地板');
+        }
+    }
+
     run() {
+        this.check();
         if (!this.isGameOver) {
             this.dataStore.get('background').draw();
 
@@ -60,6 +73,7 @@ export class Director {
             this.dataStore.put('timer', timer);
             // cancelAnimationFrame(this.dataStore.get('timer'));          // 这个函数可以终止动画循环
         } else {
+            console.log('游戏结束');
             cancelAnimationFrame(this.dataStore.get('timer'));
             this.dataStore.destroy();
         }
