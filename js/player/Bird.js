@@ -19,13 +19,13 @@ export class Bird extends Sprite {
         //小鸟的宽是34，小鸟的高度是24，上下边距是10，小鸟左右边距是9
         this.clippingX = [9, 9 + 34 + 18, 9 + 34 + 34 + 18 + 18];
         this.clippingY = [10, 10, 10];
-        this.clippingWidth = [34,34,34];
-        this.clippingHeight = [24,24,24];
+        this.clippingWidth = [34, 34, 34];
+        this.clippingHeight = [24, 24, 24];
 
-        this.birdX = window.innerWidth/4;
+        this.birdX = window.innerWidth / 4;
         this.birdsX = [this.birdX, this.birdX, this.birdX];
-        this.birdY = window.innerHeight/2;
-        this.birdsY = [this.birdY, this.birdY,this.birdY];
+        this.birdY = window.innerHeight / 2;
+        this.birdsY = [this.birdY, this.birdY, this.birdY];
         const birdWidth = 34;
         this.birdsWidth = [birdWidth, birdWidth, birdWidth];
         const birdHeight = 24;
@@ -41,10 +41,25 @@ export class Bird extends Sprite {
         // 切换三只小鸟的速度
         const speed = 0.2;
         this.count = this.count + speed;
-        if(this.index >= 2) {
+        if (this.index >= 2) {
             this.count = 0;
         }
+        // 减速器作用
         this.index = Math.floor(this.count);
+
+        // 模拟重力加速度
+        const g = 0.98 / 3;
+
+        // 向上移动一点的偏移量
+        const offsetUp = 30;
+
+        // 小鸟的位移
+        const offsetY = (g * this.time * (this.time - offsetUp)) / 2;
+        for (let i = 0; i <= 2; i++) {
+            this.birdsY[i] = this.y[i] + offsetY;
+        }
+        this.time++;
+
         super.draw(
             this.img,
             this.clippingX[this.index], this.clippingY[this.index],
