@@ -10,6 +10,7 @@ import {DataStore} from "./js/base/DataStore.js";
 import {Land} from "./js/runtime/Land.js";
 import {Bird} from "./js/player/Bird.js";
 import {StartButton} from "./js/player/StartButton.js";
+import {Score} from "./js/player/Score.js";
 
 export class Main {
     constructor() {
@@ -40,7 +41,8 @@ export class Main {
             .put('background', BackGround)
             .put('land', Land)
             .put('birds', Bird)
-            .put('startButton', StartButton)
+            .put('score', Score)
+            .put('startButton', StartButton);
         this.registerEvent();
         // 要在游戏开始之前创建
         this.director.createPencil();
