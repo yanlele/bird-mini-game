@@ -26,6 +26,7 @@ export class Main {
 
     onResourceFirstLoaded(map) {
         //　第一次加载完成的时候要给dataStore赋予一些常量的值, 放在这里是不希望销毁map的时候，一起销毁了
+        this.dataStore.canvas = this.canvas;
         this.dataStore.ctx = this.ctx;
         this.dataStore.res = map;
 

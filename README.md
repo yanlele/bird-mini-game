@@ -10,3 +10,6 @@
 2、canvas创建图片new Image() 要改为 wx.createImage();
 
 3、wx不认识window对象和document对象；
+
+4、canvas.addEventListener 这个也不能用了
+改为用这个： wx.onTouchStart(function callback)
