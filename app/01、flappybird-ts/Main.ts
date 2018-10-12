@@ -8,6 +8,7 @@ import Common from "./js/Common.js";
 class Main extends Common{
     constructor() {
         super();
+
     }
 
     run() {
