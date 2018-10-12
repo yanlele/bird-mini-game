@@ -6,15 +6,20 @@
 import Store from './Store.js'
 import InitTime from "./InitTime.js";
 import {ITimeObj} from "./CommonInterface.js"
+import Common from './Common.js';
 
-class Main extends InitTime{
+class Main extends InitTime {
     private store: Store = Store.getInstance();
+    private common: Common = new Common();
+    private timer: number = 0;
 
     constructor() {
-        super(0);
+        super();
     }
 
     run(timeObj = this.timeObj) {
+        console.log(timeObj);
+        this.animate()
     }
 
     // 自动增加时间
@@ -33,9 +38,35 @@ class Main extends InitTime{
             }
         }
 
-        // this.drawText(this.timeObj);
+        this.common.drawText(this.timeObj);
+    }
+
+    animate() {
+        console.log(this.frontCtx);
+        this.frontCtx.clearRect(0, 0, this.front.width, this.front.height);
+        this.frontCtx.beginPath();
+        Object.keys(this.cache).forEach((key) => {
+            this.cache[key].forEach((line) => {
+                line.update()
+            })
+        });
+
+        this.frontCtx.stroke();
+
+        let newTime:number = Date.now();
+        if (newTime - this.timer >= 1000) {
+            this.updateTime();
+            this.timer = newTime;
+        }
+
+        requestAnimationFrame(()=> this.animate);
+    }
+
+    RAF(animate) {
+       return window.requestAnimationFrame(animate)
     }
 }
 
-export default Main;
+let main: Main = new Main();
+main.run();
 

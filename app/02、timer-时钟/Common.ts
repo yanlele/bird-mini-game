@@ -14,9 +14,9 @@ class Common extends InitTime {
         super();
     }
 
-    formatTime(n): string {
-        n = String(n);
-        return n.length = 1 ? '0' + n : n;
+    formatTime(n) {
+        let nStr: string = String(n);
+        return nStr.length === 1 ? '0' + n : n;
     }
 
     readyForDraw(timeObj: ITimeObj, startIndex: number) {
@@ -64,8 +64,65 @@ class Common extends InitTime {
 
                 this.backCtx.strokeStyle = '#eee';
                 this.backCtx.stroke();
-                startX +=this.textWid;
+                startX += this.textWid;
             }
         })
     }
+
+    drawText(timeObj: ITimeObj) {
+        for (let i: number = 0; i < this.keys.length; i++) {
+            if (timeObj[this.keys[i]]) {
+                this.startIndex = i;
+                break;
+            }
+        }
+
+        if (!this.ready || this.startIndex !== this.latestIndex) {
+            this.readyForDraw(timeObj, this.startIndex);
+            this.ready = true
+        }
+        this.startIndex = this.latestIndex;
+        this.ch.forEach((text, index) => {
+            let num: number = timeObj[this.keys[index]];
+            let numStr: string = this.formatTime(num);
+
+            for (let j: number = 0; j < numStr.length; j++) {
+                let cc = this.cache[text + '_' + j];
+                if (!cc) {
+                    continue;
+                }
+                let val: string = numStr[j];
+                let map: string = this.timeMap[+val];
+                for (let k: number = 0; k < map.length; k++) {
+                    let val = map[k];
+                    let line = cc[k];
+                    if (line.value === val) {
+                        continue;
+                    }
+
+                    line.value = val;
+                    if (val === '1') {
+                        if (cc[k + 1] && cc[k + 1].value === '1') {
+                            // 1 -> 2
+                            line.move(3);
+                        } else {
+                            // 1 <- 2
+                            line.move(1);
+                        }
+                    } else {
+                        if (cc[k - 1] && cc[k - 1].value === '1') {
+                            // 1 -> 2
+                            line.move(2);
+                        } else {
+                            // 1 <- 2
+                            line.move(4);
+                        }
+                    }
+                }
+            }
+
+        })
+    }
 }
+
+export default Common;

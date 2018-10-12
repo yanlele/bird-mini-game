@@ -41,9 +41,6 @@ class InitTime {
         8: '1111111',
         9: '1111011',
     };
-
-    public keys: Array<string> = Object.keys(this.timeMap);
-
     protected timeObj: ITimeObj = {
         year: 29993,
         month: 12,
@@ -52,9 +49,10 @@ class InitTime {
         minute: 59,
         second: 55,
     };
-
+    protected keys: Array<string> = Object.keys(this.timeObj);
 
     constructor(textWid = 36, frontSize = 28, numWidth = 20, numHeight = 30, lineWidth = 4) {
+        console.log(123);
         this.time.appendChild(this.back);
         this.time.appendChild(this.front);
 
