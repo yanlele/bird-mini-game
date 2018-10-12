@@ -7,6 +7,9 @@ import {ITimeObj, IPos} from "./CommonInterface.js";
 import Line from "./Line.js";
 
 class Common extends InitTime {
+    private latestIndex: number = 0;
+    private startIndex: number = 0;
+
     constructor() {
         super();
     }
@@ -16,7 +19,7 @@ class Common extends InitTime {
         return n.length = 1 ? '0' + n : n;
     }
 
-    readForDraw(timeObj: ITimeObj, startIndex: number) {
+    readyForDraw(timeObj: ITimeObj, startIndex: number) {
         this.backCtx.clearRect(0, 0, this.back.width, this.back.height);
         this.backCtx.lineWidth = this.frontCtx.lineWidth = this.lineWidth;              // 设置绘图的线条宽度
         this.backCtx.fillStyle = this.color;
