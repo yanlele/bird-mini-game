@@ -13,3 +13,8 @@ export interface ITimeObj {
     minute: number,
     second: number
 }
+
+export interface IPos {
+    x: number;
+    y: number;
+}

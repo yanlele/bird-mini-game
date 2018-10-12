@@ -9,25 +9,12 @@ import {ITimeObj} from "./CommonInterface.js"
 
 class Main extends InitTime{
     private store: Store = Store.getInstance();
-    private timeObj: ITimeObj = {
-        year: 29993,
-        month: 12,
-        day: 30,
-        hour: 23,
-        minute: 59,
-        second: 55,
-    };
 
     constructor() {
         super(0);
     }
 
     run(timeObj = this.timeObj) {
-    }
-
-    static formatTime(n): string {
-        n = n.toString();
-        return n.length = 1 ? '0' + n : n;
     }
 
     // 自动增加时间

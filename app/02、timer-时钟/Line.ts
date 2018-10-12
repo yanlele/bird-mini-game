@@ -4,30 +4,27 @@
  */
 import InitTime from "./InitTime.js";
 
-interface pos {
-    x: number;
-    y: number;
-}
+import {IPos} from './CommonInterface.js'
 
 
 class Line extends InitTime {
 
-    private pos1: pos;
-    private pos2: pos;
+    private pos1: IPos;
+    private pos2: IPos;
     private value: string = '0';
     private moving: boolean = false;
     private shouldMove: boolean = false;
     private frontLine: any;
 
-    private start: pos;
-    private end: pos;
+    private start: IPos;
+    private end: IPos;
     private direction = false;
 
-    private movingPos: pos = null;
-    private goalPos: pos = null;
-    private addPos: pos = null;
+    private movingPos: IPos = null;
+    private goalPos: IPos = null;
+    private addPos: IPos = null;
 
-    constructor(pos1: pos, pos2: pos, frontLine) {
+    constructor(pos1: IPos, pos2: IPos, frontLine) {
         super();
         this.pos1 = pos1;
         this.pos2 = pos2;
@@ -79,14 +76,14 @@ class Line extends InitTime {
         }
     }
 
-    equal(pos1: pos, pos2: pos): boolean {
+    equal(pos1: IPos, pos2: IPos): boolean {
         return pos1.x === pos2.x && pos1.y === pos2.y
     }
 
     move(type: number) {
         this.shouldMove = true;
-        let newPos1: pos = {x: this.pos1.x, y: this.pos1.y};
-        let newPos2: pos = {x: this.pos2.x, y: this.pos2.y};
+        let newPos1: IPos = {x: this.pos1.x, y: this.pos1.y};
+        let newPos2: IPos = {x: this.pos2.x, y: this.pos2.y};
 
         if (type === 1) {
             this.start = this.pos1;
@@ -112,3 +109,5 @@ class Line extends InitTime {
         }
     }
 }
+
+export default Line;

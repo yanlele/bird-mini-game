@@ -2,6 +2,7 @@
  * create by yanlele
  * create time 2018-10-12 13:08
  */
+import {ITimeObj} from "./CommonInterface.js";
 
 
 class InitTime {
@@ -42,6 +43,16 @@ class InitTime {
     };
 
     public keys: Array<string> = Object.keys(this.timeMap);
+
+    protected timeObj: ITimeObj = {
+        year: 29993,
+        month: 12,
+        day: 30,
+        hour: 23,
+        minute: 59,
+        second: 55,
+    };
+
 
     constructor(textWid = 36, frontSize = 28, numWidth = 20, numHeight = 30, lineWidth = 4) {
         this.time.appendChild(this.back);
