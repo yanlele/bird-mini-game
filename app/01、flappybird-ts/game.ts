@@ -5,4 +5,5 @@
 
 import Main from './Main.js';
 
-new Main();
+let main:Main = new Main();
+main.run();

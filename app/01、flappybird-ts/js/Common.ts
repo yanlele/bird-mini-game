@@ -16,16 +16,7 @@ class Common {
         this.canvas.setAttribute('width', window.innerWidth);
         this.canvas.setAttribute('height', window.innerHeight);
 
-        console.log(123);
-    }
 
-
-    onResize() {
-        window.onresize = () => {
-            this.canvas.setAttribute('width', window.innerWidth);
-            this.canvas.setAttribute('height', window.innerHeight);
-            this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-        }
     }
 }
 

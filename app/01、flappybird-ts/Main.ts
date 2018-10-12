@@ -8,13 +8,11 @@ import Common from "./js/Common.js";
 class Main extends Common{
     constructor() {
         super();
-
-        this.onResize();
-
     }
 
-
-
+    run() {
+        console.log('开始')
+    }
 }
 
 export default Main;
