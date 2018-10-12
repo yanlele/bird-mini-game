@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es2016",
+        "experimentalDecorators": true,
+        "typeRoots": [
+            "/node_modules/@type",
+            "typings/modules"
+        ],
+        "allowJs": true,
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "outDir": "dist",
+        "baseUrl": "."
+    },
+    "include": [
+        "app/**/*"
+    ],
+    "exclude": [
+        "/node_modules"
+    ]
+}
