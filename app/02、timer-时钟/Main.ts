@@ -18,8 +18,7 @@ class Main extends InitTime {
     }
 
     run(timeObj = this.timeObj) {
-        console.log(timeObj);
-        this.animate()
+        setInterval(()=> this.animate(), 1000);
     }
 
     // 自动增加时间
@@ -58,12 +57,6 @@ class Main extends InitTime {
             this.updateTime();
             this.timer = newTime;
         }
-
-        requestAnimationFrame(()=> this.animate);
-    }
-
-    RAF(animate) {
-       return window.requestAnimationFrame(animate)
     }
 }
 

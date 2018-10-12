@@ -52,7 +52,6 @@ class InitTime {
     protected keys: Array<string> = Object.keys(this.timeObj);
 
     constructor(textWid = 36, frontSize = 28, numWidth = 20, numHeight = 30, lineWidth = 4) {
-        console.log(123);
         this.time.appendChild(this.back);
         this.time.appendChild(this.front);
 
