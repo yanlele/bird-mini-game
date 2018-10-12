@@ -1,0 +1,26 @@
+{
+  "name": "canvas-game",
+  "version": "1.0.0",
+  "description": "包含了很多其他有趣的示例\r - [01、flappybird](./app/01、flappybird/)",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "@types/node": "^8.10.36"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yanlele/canvas-game.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yanlele/canvas-game/issues"
+  },
+  "homepage": "https://github.com/yanlele/canvas-game#readme"
+}
