@@ -15,6 +15,8 @@ class Common {
         this.ctx = this.canvas.getContext('2d');
         this.canvas.setAttribute('width', window.innerWidth);
         this.canvas.setAttribute('height', window.innerHeight);
+
+        console.log(123);
     }
 
 
@@ -26,3 +28,5 @@ class Common {
         }
     }
 }
+
+export default Common;
