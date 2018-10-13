@@ -17,10 +17,6 @@ class Main extends InitTime {
         super();
     }
 
-    run(timeObj = this.timeObj) {
-        setInterval(()=> this.animate(), 1000);
-    }
-
     // 自动增加时间
     updateTime() {
         let data: Date = new Date();
@@ -41,7 +37,6 @@ class Main extends InitTime {
     }
 
     animate() {
-        console.log(this.frontCtx);
         this.frontCtx.clearRect(0, 0, this.front.width, this.front.height);
         this.frontCtx.beginPath();
         Object.keys(this.cache).forEach((key) => {
@@ -57,9 +52,11 @@ class Main extends InitTime {
             this.updateTime();
             this.timer = newTime;
         }
+
+        requestAnimationFrame(()=>this.animate());
     }
 }
 
 let main: Main = new Main();
-main.run();
+main.animate();
 

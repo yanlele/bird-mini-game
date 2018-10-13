@@ -53,7 +53,6 @@ class Common extends InitTime {
                     {x: f, y: this.y}, // right-mid
                 ];
                 let cc = (this.cache[text + '_' + j] = []);
-
                 this.backCtx.beginPath();
                 this.backCtx.moveTo(coors[0].x, coors[0].y);
 
