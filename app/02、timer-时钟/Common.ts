@@ -30,9 +30,9 @@ class Common extends InitTime {
         let c: number = this.y - this.halfNumHeight;
         let d: number = this.y + this.halfNumHeight;
 
-        this.ch.forEach((text, index) => {
+        /*this.ch.forEach((text, index) => {
             if (index < startIndex) {
-                return false;
+                return;
             }
 
             let num: number = this.timeObj[this.keys[index]];
@@ -65,7 +65,47 @@ class Common extends InitTime {
                 this.backCtx.stroke();
                 startX += this.textWid;
             }
-        })
+        })*/
+
+        this.ch.forEach( (text, index) => {
+            if (index < startIndex) {
+                return;
+            }
+            let num = timeObj[this.keys[index]];
+            let numStr = this.formatTime(num);
+            for (let j = 0; j < numStr.length; j++) {
+                let val = numStr[j];
+                let map = this.timeMap[+val];
+                let e = startX + a;
+                let f = startX + b;
+                let coors = [
+                    {x: e, y: this.y}, // left-mid
+                    {x: e, y: c}, // left-top
+                    {x: f, y: c}, // right-top
+                    {x: f, y: this.y}, // right-mid
+                    {x: e, y: this.y}, // left-mid
+                    {x: e, y: d}, // left-bottom
+                    {x: f, y: d}, // right-bottom
+                    {x: f, y: this.y}, // right-mid
+                ];
+
+                let cc = (this.cache[text + '_' + j] = []);
+                this.backCtx.beginPath();
+                this.backCtx.moveTo(coors[0].x, coors[0].y);
+
+                for (let k = 1; k < coors.length; k++) {
+                    this.backCtx.lineTo(coors[k].x, coors[k].y);
+                    cc.push(new Line(coors[k - 1], coors[k], cc[cc.length - 1]));
+                }
+
+                this.backCtx.strokeStyle = '#eee';
+                this.backCtx.stroke();
+                startX += this.textWid;
+            }
+
+            this.backCtx.fillText(text, startX + this.halfTextWid, this.y);
+            startX += this.textWid;
+        });
     }
 
     drawText(timeObj: ITimeObj) {
@@ -81,18 +121,19 @@ class Common extends InitTime {
             this.ready = true
         }
         this.startIndex = this.latestIndex;
-        this.ch.forEach((text, index) => {
-            let num: number = timeObj[this.keys[index]];
-            let numStr: string = this.formatTime(num);
+        this.ch.forEach( (text, index) => {
+            let num = timeObj[this.keys[index]];
+            let numStr = this.formatTime(num);
 
-            for (let j: number = 0; j < numStr.length; j++) {
+            for (let j = 0; j < numStr.length; j++) {
                 let cc = this.cache[text + '_' + j];
                 if (!cc) {
                     continue;
                 }
-                let val: string = numStr[j];
-                let map: string = this.timeMap[+val];
-                for (let k: number = 0; k < map.length; k++) {
+
+                let val = numStr[j];
+                let map = this.timeMap[+val];
+                for (let k = 0; k < map.length; k++) {
                     let val = map[k];
                     let line = cc[k];
                     if (line.value === val) {
@@ -119,8 +160,7 @@ class Common extends InitTime {
                     }
                 }
             }
-
-        })
+        });
     }
 }
 

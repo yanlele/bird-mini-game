@@ -15,6 +15,8 @@ class Main extends InitTime {
 
     constructor() {
         super();
+        this.time.appendChild(this.back);
+        this.time.appendChild(this.front);
     }
 
     // 自动增加时间
@@ -32,7 +34,6 @@ class Main extends InitTime {
                 this.timeObj[key] = index >= 3 ? 0 : 1;
             }
         }
-
         this.common.drawText(this.timeObj);
     }
 
@@ -52,7 +53,6 @@ class Main extends InitTime {
             this.updateTime();
             this.timer = newTime;
         }
-
         requestAnimationFrame(()=>this.animate());
     }
 }

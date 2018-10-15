@@ -52,9 +52,6 @@ class InitTime {
     protected keys: Array<string> = Object.keys(this.timeObj);
 
     constructor(textWid = 36, frontSize = 28, numWidth = 20, numHeight = 30, lineWidth = 4) {
-        this.time.appendChild(this.back);
-        this.time.appendChild(this.front);
-
         // **element.offsetWidth**|	返回元素的宽度，包括边框和填充，但不是边距
         this.front.width = this.back.width = this.time.offsetWidth * this.ratio;
         this.front.height = this.back.height = this.time.offsetHeight * this.ratio;
