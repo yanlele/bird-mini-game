@@ -1,5 +1,2 @@
-# canvas game
-
-
-包含了很多其他有趣的示例
-- [01、flappybird](./app/01、flappybird/)
+# TypeScript-build-index
+构建TypeScript-webpack 前端程序常用示例项目

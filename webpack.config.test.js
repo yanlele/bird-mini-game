@@ -8,20 +8,40 @@ const glob = require('glob-all');
 const path = require('path');
 const fse = require('fs-extra');
 
-const baseConfig = {
-    devtool: 'inline-source-map',
+module.exports = {
     entry: {
-        common: './app/common/Common.ts'
+        app: './app/pages/01、test/index.ts'
     },
+
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'js/[name].[chunkhash:5].js',
         publicPath: '/',
         chunkFilename: '[name].bundle.js',              //动态打包文件名
     },
+
     resolve: {
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
     },
+
+    devtool: 'source-map',
+
+    devServer: {
+        port: 3000,
+        /*proxy: {
+            '/': {
+                target: 'http://localhost:3002',
+                changeOrigin: true,
+                logLevel: 'debug',
+                pathRewrite: {
+                    '': '/api/'
+                }
+            }
+        },*/
+        hot: true,
+        hotOnly: true,
+    },
+
     module: {
         rules: [
             {
@@ -48,10 +68,10 @@ const baseConfig = {
                     use: [
                         {
                             loader: 'css-loader',
-                            /*options: {
-                                // minimize: true,
-                                // modules: true,
-                            }*/
+                            options: {
+                                minimize: false,
+                                modules: false,
+                            }
                         },
                         {
                             loader: 'postcss-loader',
@@ -82,7 +102,16 @@ const baseConfig = {
                                 minimize: false,
                                 localIdentName: '[path][name]_[local]_[hash:base64:5]'
                             },
-                            // loader: 'file-loader'
+                        },
+                        {
+                            loader: 'postcss-loader',
+                            options: {
+                                ident: 'postcss',
+                                plugins: [
+                                    require('autoprefixer')(),
+                                    // require('cssnano')()
+                                ]
+                            }
                         },
                         {
                             loader: 'less-loader'
@@ -154,65 +183,17 @@ const baseConfig = {
         new CleanWebpack(path.resolve(__dirname, 'dist')),
 
         new webpack.optimize.CommonsChunkPlugin({               // 提取三方生成的代码, 包括模块代码
-            names: [ 'common'],
+            names: [ 'mainfest'],
             minChunks: Infinity
         }),
 
-        new webpack.optimize.UglifyJsPlugin(),
+        // new PurifyCSS({
+        //     paths: glob.sync([
+        //         path.join(__dirname, './app/*.html'),
+        //         path.join(__dirname, './app/*.js')
+        //     ]),
+        // }),
+
+        new webpack.optimize.UglifyJsPlugin()
     ]
 };
-
-const generatePage = function ({
-                                   title = '',
-                                   entry = '',
-                                   template = './app/index.html',
-                                   name = '',
-                                   chunks = []
-                               } = {}) {
-    return {
-        entry,
-        plugins: [
-            new HtmlWebpackPlugin({
-                chunks,
-                template,
-                title,
-                filename: name + '.html',
-                minify: {
-                    collapseWhitespace: false                //祛除空格
-                }
-            })
-        ]
-    }
-};
-
-const appPaths = fse.readdirSync(path.resolve(__dirname, 'app', 'pages'));
-let appItemPath = '';
-let myPages = [];
-let appItemHtmlTemplate = '';
-let purifyCSSList = [];                         // tree shaking css list;
-appPaths.map(function (item) {
-    appItemPath = path.resolve(__dirname, 'app', 'pages', item, 'index.ts');
-    appItemHtmlTemplate = path.resolve(__dirname, 'app', 'pages', item, 'index.html');
-    if(fse.pathExistsSync(appItemPath)) {
-        myPages.push(generatePage({
-            title: item,
-            entry: {
-                [item]: `./app/pages/${item}/index.ts`
-            },
-            name: item,
-            chunks: ['common', item],
-            template: fse.pathExistsSync(appItemHtmlTemplate) ? path.resolve(__dirname, 'app', 'pages', item, 'index.html') : './app/index.html',
-        }));
-        purifyCSSList.push(path.resolve(__dirname, 'app', 'pages', item, 'index.html'));
-    }
-});
-
-if (purifyCSSList.length >= 1) {
-    baseConfig.plugins.push(
-        new PurifyCSS({
-            paths: glob.sync(purifyCSSList),
-        })
-    )
-}
-
-module.exports = merge([baseConfig].concat(myPages));

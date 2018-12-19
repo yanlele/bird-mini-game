@@ -16,11 +16,25 @@ const baseConfig = {
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'js/[name].[chunkhash:5].js',
-        publicPath: '/',
-        chunkFilename: '[name].bundle.js',              //动态打包文件名
+        publicPath: '/'
     },
     resolve: {
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
+    },
+    devServer: {
+        port: 3000,
+        /*proxy: {
+            '/': {
+                target: 'http://localhost:3002',
+                changeOrigin: true,
+                logLevel: 'debug',
+                pathRewrite: {
+                    '': '/api/'
+                }
+            }
+        },*/
+        hot: true,
+        hotOnly: true,
     },
     module: {
         rules: [
@@ -38,57 +52,62 @@ const baseConfig = {
             },
             {
                 test: /\.css$/,
-                use: ExtractTextWebpackPlugin.extract({
-                    fallback: {
+                use: [
+                    {
                         loader: 'style-loader',
                         options: {
                             singleton: true
                         }
                     },
-                    use: [
-                        {
-                            loader: 'css-loader',
-                            /*options: {
-                                // minimize: true,
-                                // modules: true,
-                            }*/
-                        },
-                        {
-                            loader: 'postcss-loader',
-                            options: {
-                                ident: 'postcss',
-                                plugins: [
-                                    require('autoprefixer')(),
-                                    require('cssnano')()
-                                ]
-                            }
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            // minimize: true,
+                            // modules: true,
                         }
-                    ]
-                })
+                    },
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            ident: 'postcss',
+                            plugins: [
+                                require('autoprefixer')(),
+                                require('cssnano')()
+                            ]
+                        }
+                    }
+                ]
             },
             {
                 test: /\.less$/,
-                use: ExtractTextWebpackPlugin.extract({
-                    fallback: {
+                use: [
+                    {
                         loader: 'style-loader',
                         options: {
                             singleton: true
                         }
                     },
-                    use: [
-                        {
-                            loader: 'css-loader',
-                            options: {
-                                minimize: false,
-                                localIdentName: '[path][name]_[local]_[hash:base64:5]'
-                            },
-                            // loader: 'file-loader'
-                        },
-                        {
-                            loader: 'less-loader'
+                    {
+                        loader: 'css-loader',
+                        /*options: {
+                            // minimize: true,
+                            // modules: true,
+                        }*/
+                    },
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            ident: 'postcss',
+                            plugins: [
+                                require('autoprefixer')(),
+                                require('cssnano')()
+                            ]
                         }
-                    ]
-                })
+                    },
+                    {
+                        loader: 'less-loader'
+                    }
+                ]
             },
             {
                 test: /\.(png|jpg|jpeg|gif)$/,
@@ -154,11 +173,11 @@ const baseConfig = {
         new CleanWebpack(path.resolve(__dirname, 'dist')),
 
         new webpack.optimize.CommonsChunkPlugin({               // 提取三方生成的代码, 包括模块代码
-            names: [ 'common'],
+            names: ['common'],
             minChunks: Infinity
         }),
 
-        new webpack.optimize.UglifyJsPlugin(),
+        new webpack.optimize.UglifyJsPlugin()
     ]
 };
 
@@ -189,11 +208,10 @@ const appPaths = fse.readdirSync(path.resolve(__dirname, 'app', 'pages'));
 let appItemPath = '';
 let myPages = [];
 let appItemHtmlTemplate = '';
-let purifyCSSList = [];                         // tree shaking css list;
 appPaths.map(function (item) {
     appItemPath = path.resolve(__dirname, 'app', 'pages', item, 'index.ts');
     appItemHtmlTemplate = path.resolve(__dirname, 'app', 'pages', item, 'index.html');
-    if(fse.pathExistsSync(appItemPath)) {
+    if (fse.pathExistsSync(appItemPath)) {
         myPages.push(generatePage({
             title: item,
             entry: {
@@ -202,17 +220,8 @@ appPaths.map(function (item) {
             name: item,
             chunks: ['common', item],
             template: fse.pathExistsSync(appItemHtmlTemplate) ? path.resolve(__dirname, 'app', 'pages', item, 'index.html') : './app/index.html',
-        }));
-        purifyCSSList.push(path.resolve(__dirname, 'app', 'pages', item, 'index.html'));
+        }))
     }
 });
-
-if (purifyCSSList.length >= 1) {
-    baseConfig.plugins.push(
-        new PurifyCSS({
-            paths: glob.sync(purifyCSSList),
-        })
-    )
-}
 
 module.exports = merge([baseConfig].concat(myPages));
