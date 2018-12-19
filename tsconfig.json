@@ -16,7 +16,8 @@
         "lib": ["es2017", "dom", "es2016"]
     },
     "include": [
-        "app/**/*"
+        "app/**/*",
+        "node_modules/@types"
     ],
     "exclude": [
         "/node_modules"

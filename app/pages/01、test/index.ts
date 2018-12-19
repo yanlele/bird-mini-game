@@ -5,9 +5,9 @@
  */
 
 import Main from './Main';
-require('./index.less');
+import './index.less'
 
 
 console.log(123);
 let main = new Main();
-main.run()
+main.run();

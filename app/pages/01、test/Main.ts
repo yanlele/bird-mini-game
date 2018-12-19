@@ -5,6 +5,7 @@
  */
 
 
+
 class Main {
     run() {
         console.log('main')
