@@ -48,6 +48,7 @@ class Index {
     }
 }
 
+// 粒子对象
 class Particle extends Index{
     private x: number;
     private y: number;
@@ -100,9 +101,38 @@ class Particle extends Index{
 
     // 吸引
     attract() {
+        let angle, bh, cx, cy, k, lax, lay, len, power, results;
+        this.ax = this.ay = 0;
+        let result = [];
+        for (k = 0, len = this.blackHoles.length; k < len; k++) {
+            bh = this.blackHoles[k];
+            cx = bh.x - this.x;
+            cy = bh.y - this.y;
+            angle = Math.atan(cx / cy);
+            power = bh.power * 0.1;
+            lax = Math.abs(power * Math.sin(angle));
+            lay = Math.abs(power * Math.cos(angle));
+            this.ax += cx > 0 ? lax : -lax;
+            results.push(this.ay += cy > 0 ? lay : -lay);
+        }
+        return results;
+    }
 
+    // 绘制
+    draw() {
+        this.bufferCtx.save();
+        this.bufferCtx.strokeStyle = this.color;
+        this.bufferCtx.lineCap = this.bufferCtx.lineJoin = "round";
+        this.bufferCtx.lineWidth = this.r;
+        this.bufferCtx.beginPath();
+        this.bufferCtx.moveTo(this.oldx - this.r, this.oldy - this.r);
+        this.bufferCtx.lineTo(this.x - this.r, this.y - this.r);
+        this.bufferCtx.stroke();
+        this.bufferCtx.restore();
     }
 }
+
+
 
 let index: Index = new Index();
 index.main();
