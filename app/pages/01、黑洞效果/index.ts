@@ -49,7 +49,7 @@ class Index {
 }
 
 // 粒子对象
-class Particle extends Index{
+class Particle extends Index {
     private x: number;
     private y: number;
     private r: number;
@@ -94,7 +94,7 @@ class Particle extends Index{
 
         this.x += this.vy;
         this.y += this.vx;
-        
+
         this.vx = (0 <= (ref = this.x) && ref <= this.canvas.width + this.r * 2) ? this.vx : -this.vx * 0.98;
         this.vy = (0 <= (ref1 = this.y) && ref1 <= this.canvas.height + this.r * 2) ? this.vy : -this.vy * 0.98;
     }
@@ -132,6 +132,54 @@ class Particle extends Index{
     }
 }
 
+class BlackHole extends Index {
+    private x: number;
+    private y: number;
+    private r: number;
+    private power: number;
+    private step: number;
+    private bigger: number;
+    private isAdd: boolean;
+    private ir: number;
+    private destory;
+
+    constructor(options) {
+        super();
+        this.x = options.x;
+        this.y = options.y;
+        this.r = options.r;
+        this.power = options.power;
+        this.step = 2;
+        this.bigger = 5;
+
+        // todo 这个地方需要添加 this.animate(0);
+    }
+
+
+    drawLight(ctx) {
+        let imgr;
+        if (this.isAdd) {
+            if ((this.ir += this.step) ? (this.r + this.bigger)) {
+                this.isAdd = false;
+            }
+        } else {
+            this.ir = this.ir <= this.r ? this.r : this.ir - this.step;
+            if (this.destory && this.ir === this.r) {
+                this.blackHoles.splice(this.blackHoles.indexOf(this), 1);               // 删除黑洞
+            }
+        }
+        imgr = this.ir * 1.4;
+        return this.ctx.drawImage(this.bgImage, this.x - imgr, this.y - imgr, imgr * 2, imgr * 2);
+    }
+
+    draw(ctx) {
+        let _this = this;
+        ctx.beginPath();
+        ctx.fillStyle = '#000';
+        ctx.arc(this.x, this.y, this.ir, 0, Math.PI * 2);
+        return ctx.fill();
+    }
+}
 
 
 let index: Index = new Index();
